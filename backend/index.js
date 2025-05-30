@@ -1,5 +1,5 @@
 const express = require('express');
-//const cors = require('cors');
+const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
@@ -12,6 +12,9 @@ const danwordlist = ["씨발", "ㅅㅂ", "ㅆㅂ", "새끼", "지랄", "좆", "�
 const app = express();
 app.use(bodyParser.json()); // JSON 파싱 미들웨어 추가
 app.set('trust proxy', true);
+app.use(cors({
+  origin: 'http://172.30.1.44:3000'
+}));
 
 app.post('/api/users/upload', async (req, res, next) => {
   //console.log('postapi');
