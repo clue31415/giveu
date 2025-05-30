@@ -15,6 +15,8 @@ export default function Timetable() {
   ]);
   
   const [newRow, setNewRow] = useState(Array(8).fill('')); // 새로운 행에 추가할 값들
+  const [grade, setGrade] = useState(1);
+  const [classroom, setClassroom] = useState(1);
 
   // 새로운 행 추가 함수
   const addRow = () => {
@@ -29,12 +31,42 @@ export default function Timetable() {
     setNewRow(updatedRow);
   };
 
+    const handleGradeChange = (delta) => {
+    setGrade(prev => {
+      const newGrade = prev + delta;
+      return newGrade < 1 ? 1 : newGrade > 3 ? 3 : newGrade;
+    });
+  };
+
+  const handleClassChange = (delta) => {
+    setClassroom(prev => {
+      const newClass = prev + delta;
+      return newClass < 1 ? 1 : newClass > 15 ? 15 : newClass;
+    });
+  };
+
   return (
     <div>
-      <h1>Timetable</h1>
+      <h1>시간표</h1>
+
+      {/* 학년/반 선택 UI */}
+      <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <div>
+          <button onClick={() => handleGradeChange(-1)}>{'<'}</button>
+          <span style={{ margin: '0 10px' }}>{grade}</span>
+          <button onClick={() => handleGradeChange(1)}>{'>'}</button>
+          <span> 학년</span>
+        </div>
+        <div>
+          <button onClick={() => handleClassChange(-1)}>{'<'}</button>
+          <span style={{ margin: '0 10px' }}>{classroom}</span>
+          <button onClick={() => handleClassChange(1)}>{'>'}</button>
+          <span> 반</span>
+        </div>
+      </div>
 
       {/* timetable 표 */}
-      <table style={{ width: '800px', height: '400px', tableLayout: 'fixed', borderCollapse: 'collapse' }}>
+      <table style={{ width: '100%', height: '400px', tableLayout: 'fixed', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
             <th></th>
@@ -49,7 +81,7 @@ export default function Timetable() {
           {timetable.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((cell, colIndex) => (
-                <td key={colIndex} style={{ width: '100px', height: '50px', border: '1px solid black', textAlign: 'center' }}>{cell}</td>
+                <td key={colIndex} style={{ height: '50px', border: '1px solid black', textAlign: 'center' }}>{cell}</td>
                 //<td key={colIndex}>{cell}</td>
               ))}
             </tr>
