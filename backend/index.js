@@ -1,13 +1,13 @@
 const express = require('express');
 //const cors = require('cors');
-//const { MongoClient } = require('mongodb');
+const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
-//const MONGODB_URL = process.env.MONGODB_URL || (process.env.NODE_ENV === 'production' ? 'mongodb://mongo:27017/okpogo' : 'mongodb://localhost:27017/okpogo');
-//const MONGODB_DBNAME = 'okpogo';
+const MONGODB_URL = 'mongodb://172.30.1.44:27017';
+const MONGODB_DBNAME = 'okpogo';
 const PORT = 8080;
 
-const danwordlist = ["씨발", "ㅅㅂ", "ㅆㅂ", "새끼", "지랄", "좆", "엿", "병신", "존나", "썅", "쌍", "죽여", "시발", "돼지", "염병", "정신병자", "한남", "한녀", "년", "페미", "동덕", "게이", "인셀", "걸레", "매춘", "자살", "일베", "승만", "정희", "두환", "명박", "근혜", "무현", "재인", "홍준표", "이재명", "안철수", "조국", "석열", "빨갱", "이기야", "딸", "농ㅋ", "농쭉", "천박", "딜도", "오나", "자위", "섹스", "쎅쓰", "쎅스", "섹수", "니거", "비치", "후장", "딕", "야추", "fuck", "sex", "moron", "bitch", "dick", "slut", "nigger", "위험단어테스트용용용"];
+const danwordlist = ["씨발", "ㅅㅂ", "ㅆㅂ", "새끼", "지랄", "좆", "엿", "병신", "존나", "썅", "쌍", "죽여", "시발", "돼지", "염병", "병자", "한남", "한녀", "년", "페미", "동덕", "게이", "인셀", "걸레", "매춘", "자살", "일베", "승만", "정희", "두환", "명박", "근혜", "무현", "재인", "홍준표", "이재명", "안철수", "조국", "석열", "빨갱", "이기야", "딸", "농ㅋ", "농쭉", "천박", "딜도", "오나", "자위", "ㅅㅅ", "섹스", "쎅쓰", "쎅스", "섹수", "니거", "비치", "후장", "딕", "야추", "fuck", "sex", "moron", "bitch", "dick", "slut", "nigger", "위험단어테스트용용용"];
 
 const app = express();
 app.use(bodyParser.json()); // JSON 파싱 미들웨어 추가
