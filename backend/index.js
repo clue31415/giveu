@@ -3,7 +3,7 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 
-const MONGODB_URL = 'mongodb://172.30.1.44:27017';
+const MONGODB_URL = 'mongodb://172.30.1.110:27017';
 const MONGODB_DBNAME = 'okpogo';
 const PORT = 8080;
 
@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json()); // JSON 파싱 미들웨어 추가
 app.set('trust proxy', true);
 app.use(cors({
-  origin: 'http://172.30.1.44:3000'
+  origin: 'http://172.30.1.110:3000'
 }));
 
 app.post('/api/users/upload', async (req, res, next) => {
