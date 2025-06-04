@@ -105,7 +105,7 @@ export default function Timetable() {
           </tr>
         </thead>
         <tbody>
-          {timetable[grade][classroom].map((row, rowIndex) => (
+          {timetable[grade-1][classroom-1].map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((cell, colIndex) => (
                 <td key={colIndex} style={{ height: '50px', border: '1px solid black', textAlign: 'center', whiteSpace: 'pre' }}>{cell}</td>
