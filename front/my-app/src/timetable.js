@@ -108,7 +108,7 @@ export default function Timetable() {
           {timetable.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((cell, colIndex) => (
-                <td key={colIndex} style={{ height: '50px', border: '1px solid black', textAlign: 'center', whiteSpace: 'pre' }}>{cell}</td>
+                <td key={colIndex} style={{ height: '50px', border: '1px solid black', textAlign: 'center' }}>{cell}</td>
                 //<td key={colIndex}>{cell}</td>
               ))}
             </tr>
