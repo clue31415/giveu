@@ -10,7 +10,7 @@ export default function Wrlte() {
     const userData = [title, content, name, pw];
     const navigate = useNavigate();
     function uploadposl() {
-        fetch("http://172.30.1.44:8080/api/users/uploal", { //auth 주소에서 받을 예정
+        fetch("http://172.30.1.110:8080/api/users/uploal", { //auth 주소에서 받을 예정
           method: "POST", // method :통신방법
           headers: {      // headers: API 응답에 대한 정보를 담음
             "content-type": "application/json",
