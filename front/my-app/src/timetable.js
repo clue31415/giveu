@@ -116,5 +116,6 @@ export default function Timetable() {
         </tbody>
       </table>
     </div>
+    <div><Link className={"link-style1"} to={"/home"}>커뮤니티</Link></div>
   );
 }
