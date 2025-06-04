@@ -40,9 +40,9 @@ export default function Timetable() {
       const newGrade = prev + delta;
       if ((newGrade==1 || newGrade==2) && prev==3){
         if (classroom==14){
-          handleClassChange(-1);//-2해야하는데 2배로 빼짐
+          handleClassChange(-2);
         } else if (classroom==13){
-          handleClassChange(-0.5);//-1해야하는데 2배로 빼짐
+          handleClassChange(-1);
         }
       }
       return newGrade < 1 ? 1 : newGrade > 3 ? 3 : newGrade;
