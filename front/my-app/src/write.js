@@ -20,13 +20,13 @@ export default function Write() {
           .then((res) => res.json())
           .then((json) => {
           });
-        window.location.replace('/');
+        window.location.replace('/home');
         //navigate('/');
             }
     return (
         <div className="App">
         <div className="op-title">
-        <div><Link className={"link-style1"} to={"/"}>거제옥포고등학교</Link></div>
+        <div><Link className={"link-style1"} to={"/home"}>거제옥포고등학교</Link></div>
         </div>
         <div className="op-write">
             <h1>글 쓰기</h1>
