@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json()); // JSON 파싱 미들웨어 추가
 app.set('trust proxy', true);
 app.use(cors({
-  origin: 'http://172.30.1.110:3000'
+  origin: 'http://okpogo.servehttp.com:3000'
 }));
 
 app.post('/api/users/upload', async (req, res, next) => {
