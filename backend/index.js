@@ -24,6 +24,7 @@ app.post('/api/users/upload', async (req, res, next) => {
     const collection = client.db(MONGODB_DBNAME).collection('namepw');
     const userinfo = await collection.findOne({ name: req.body[2] });
     console.log(req.body);
+    console.log(userinfo);
     const titlecheck = danwordlist.some(char => req.body[0].includes(char));
     const contentcheck = danwordlist.some(char => req.body[1].includes(char));
     console.log('check',!userinfo, userinfo.ban, userinfo.pw !== req.body[3],req.body[0] === null,req.body[1] === null,titlecheck,contentcheck);
