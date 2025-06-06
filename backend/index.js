@@ -22,7 +22,7 @@ app.post('/api/users/upload', async (req, res, next) => {
   try {
     client = await MongoClient.connect(MONGODB_URL);
     const collection = client.db(MONGODB_DBNAME).collection('namepw');
-    const userinfo = await collection.findOne({ name: req.body[2] });
+    const userinfo = await collection.findOne({ name: req.body.name });
     console.log(req.body);
     console.log(userinfo);
     const titlecheck = danwordlist.some(char => req.body[0].includes(char));
