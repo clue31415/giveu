@@ -6,7 +6,6 @@ import Home from "./home";
 import Post from "./post";
 import Write from "./write";
 import Wrlte from "./wrlte";
-import Code from "./code";
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
           <Route path="/post" element={<Post />} />
           <Route path="/write" element={<Write />} />
           <Route path="/wrlte" element={<Wrlte />} />
-          <Route path="/code" element={<Code />} />
         </Routes>
       </div>
     </BrowserRouter>
