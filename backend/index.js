@@ -142,6 +142,10 @@ app.post('/run', async (req, res) => {
 // 정적 파일 서빙 (HTML, CSS, JS 등)
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/code', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'code.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
