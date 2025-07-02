@@ -1,0 +1,524 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>C 코드 실행기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            display: flex;
+            background-color: #f4f4f4;
+            color: black;
+        }
+
+        .fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 100%;
+            background-color: gray;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2%;
+        }
+
+        .fu {
+            width: 100%;
+            margin-top: 10%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .start {
+            width: 60%;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            background-color: #BDA4D5;
+            border: none;
+            color: white;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .start:active {
+            background-color: darkslateblue;
+        }
+
+        .dodo {
+            font-size: 25px;
+        }
+
+        .background.change {
+            margin-top: 20%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-radius: 20px;
+        }
+
+        .background.change button {
+            width: 42px;
+            height: 42px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .dark-mode{
+            --bg-colors: #121212;
+            --text-color:#f0f0f0;
+        }
+
+        .local {
+            background-color: black;
+            color: white;
+        }
+
+        .local:active {
+            background-color: gray;
+        }
+
+        .local1 {
+            background-color: white;
+            color: black;
+        }
+
+        .local1:active {
+            background-color: gray;
+        }
+
+        .scrollable {
+            margin-left: 80px;
+            width: 94%;
+            padding: 1%
+        }
+        .loadk
+        {   
+            font-size: 40px;
+        }
+        .textarea {
+            width: 100%;
+            height: 60vh;
+            font-family: monospace;
+            font-size: 1em;
+            padding: 2%;
+            resize: vertical;
+            overflow: auto;
+            background-color: black;
+            color: white;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            text-decoration: none;
+        }
+
+        #output {
+            background-color: black;
+            font-family: monospace;
+            font-size: 1em;
+            color: white;
+            padding: 2%;
+            margin-top: 2%;
+            width: 100%;
+            height: 20vh;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            border-radius: 15px;
+        }
+
+        h2, h3 {
+            margin-bottom: 1%;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* 문제 패널 스타일 */
+        .problem-toggle {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 20px 0 0 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            transition: all 0.2s ease;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+        }
+
+        .problem-toggle:hover {
+            transform: translateY(-50%) translateX(-5px);
+        }
+
+        .problem-panel {
+            position: fixed;
+            right: -270px;
+            top: 15%;
+            width: 250px;
+            height: 70vh;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px 0 0 15px;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.5);
+            transition: right 0.2s ease;
+            z-index: 1000;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .problem-panel.active {
+            right: 0;
+        }
+
+        .problem-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 10px;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .problem-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .problem-counter {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .problem-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            color: white;
+        }
+
+        .problem-difficulty {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .difficulty-easy {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .difficulty-medium {
+            background: #FF9800;
+            color: white;
+        }
+
+        .difficulty-hard {
+            background: #F44336;
+            color: white;
+        }
+
+        .problem-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .problem-description {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #ddd;
+        }
+
+        /* 스크롤바 스타일링 */
+        .problem-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .problem-content::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .problem-content::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fixed">
+        <h1 class="dodo">code</h1>
+        <div class="fu">
+            <button class="start" onclick="runCode()" aria-label="코드 실행">
+                ▶<span class="visually-hidden">실행</span>
+            </button>
+        </div>
+
+        <div class="background change">
+            <button class="local" onclick="toggleMode()"></button>
+        </div>
+    </div>
+
+    <div class="scrollable">
+        
+        <h1 class="loadk"><a href="https://namu.wiki/w/%EB%A0%88%EB%B0%80%EB%A6%AC%EC%95%84%20%EC%8A%A4%EC%B9%BC%EB%A0%9B" style="text-decoration: none; color: inherit;">C</a></h1>
+        <textarea id="codeArea" placeholder="C 코드를 여기에 입력하세요..." class="textarea"></textarea>
+        <h4>서버 응답 결과:</h4>
+        <div id="output">(아직 결과가 없습니다...)</div>
+    </div>
+
+    <!-- 문제 패널 -->
+    <button class="problem-toggle" onclick="toggleProblemPanel()">
+        <span id="toggle-text">문제</span>
+    </button>
+
+    <div class="problem-panel" id="problemPanel">
+        <div class="problem-header">
+            파이썬 문제집
+        </div>
+        <div class="problem-nav">
+            <button class="nav-btn" onclick="prevProblem()" id="prevBtn">‹</button>
+            <span class="problem-counter">
+                <span id="currentProblem">1</span>/30
+            </span>
+            <button class="nav-btn" onclick="nextProblem()" id="nextBtn">›</button>
+        </div>
+        <div class="problem-content">
+            <div class="problem-difficulty" id="problemDifficulty">쉬움</div>
+            <div class="problem-title" id="problemTitle">Hello World 출력하기</div>
+            <div class="problem-description" id="problemDescription">
+                "Hello, World!"를 출력하는 파이썬 프로그램을 작성하세요.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 기존 함수들
+	async function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const outputEl = document.getElementById("output");
+      outputEl.textContent = "⏳ 실행 중...";
+
+      try {
+        const response = await fetch("/run", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ code }),
+        });
+
+        const result = await response.json();
+
+        if (result.error) {
+          outputEl.textContent = "❌ 오류:\n" + result.error;
+        } else {
+          outputEl.textContent = result.output || "(출력 없음)";
+        }
+      } catch (err) {
+        outputEl.textContent = "⚠️ 요청 실패: " + err.message;
+      }
+    }
+
+        function submitCode() {
+            const code = document.getElementById('codeArea').value.trim();
+            const output = document.getElementById('output');
+
+            if (!code) {
+                output.textContent = "C 코드를 입력하세요.";
+                return;
+            }
+
+            fetch('/submit-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP 오류: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                output.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error("에러 발생:", error);
+                output.textContent = "오류 발생: " + error.message;
+            });
+        }
+
+        function toggleMode(){
+            document.body.classList.toggle('dark-mode');
+        }
+
+        document.getElementById('codeArea').addEventListener('input', function (e) {
+            const value = e.target.value.trim();
+            if (value.includes('아리스')) {
+                window.location.href = 'https://namu.wiki/w/%ED%85%90%EB%8F%84%20%EC%95%84%EB%A6%AC%EC%8A%A4';
+            }
+        });
+
+        // 문제 패널 관련 변수와 함수들
+        let currentProblemIndex = 0;
+        let isPanelOpen = false;
+
+        const problems = [
+            // 쉬움 (1-10)
+            { difficulty: "easy", title: "Hello World 출력하기", description: "\"Hello, World!\"를 출력하는 파이썬 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "두 수 더하기", description: "두 개의 정수를 입력받아 그 합을 출력하는 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "짝수 홀수 판별", description: "입력받은 숫자가 짝수인지 홀수인지 판별하는 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "1부터 10까지 출력", description: "1부터 10까지의 숫자를 순서대로 출력하는 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "최댓값 찾기", description: "리스트에서 가장 큰 수를 찾는 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "문자열 길이", description: "입력받은 문자열의 길이를 출력하는 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "리스트 합계", description: "리스트의 모든 원소의 합을 구하는 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "숫자 개수 세기", description: "1부터 100까지 숫자 중에서 7이 포함된 숫자의 개수를 세는 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "문자열 뒤집기", description: "입력받은 문자열을 거꾸로 출력하는 프로그램을 작성하세요." },
+            { difficulty: "easy", title: "구구단 출력", description: "입력받은 숫자의 구구단을 출력하는 프로그램을 작성하세요." },
+            
+            // 보통 (11-20)
+            { difficulty: "medium", title: "소수 판별", description: "입력받은 숫자가 소수인지 판별하는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "팩토리얼 계산", description: "입력받은 숫자의 팩토리얼을 계산하는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "피보나치 수열", description: "n번째 피보나치 수를 구하는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "문자 개수 세기", description: "문자열에서 특정 문자가 몇 개 나타나는지 세는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "리스트 정렬", description: "리스트를 오름차순으로 정렬하는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "중복 제거", description: "리스트에서 중복된 원소를 제거하는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "가장 긴 단어", description: "문장에서 가장 긴 단어를 찾는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "평균 계산", description: "리스트의 평균값을 계산하는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "두 번째로 큰 수", description: "리스트에서 두 번째로 큰 수를 찾는 프로그램을 작성하세요." },
+            { difficulty: "medium", title: "아나그램 확인", description: "두 문자열이 아나그램인지 확인하는 프로그램을 작성하세요." },
+            
+            // 어려움 (21-30)
+            { difficulty: "hard", title: "이진 탐색", description: "정렬된 리스트에서 특정 값을 이진 탐색으로 찾는 프로그램을 작성하세요." },
+            { difficulty: "hard", title: "최대공약수", description: "두 수의 최대공약수를 구하는 프로그램을 작성하세요." },
+            { difficulty: "hard", title: "순열 생성", description: "주어진 리스트의 모든 순열을 생성하는 프로그램을 작성하세요." },
+            { difficulty: "hard", title: "동적 프로그래밍", description: "계단 오르기 문제를 동적 프로그래밍으로 해결하세요." },
+            { difficulty: "hard", title: "하노이 탑", description: "재귀를 이용해 하노이 탑 문제를 해결하는 프로그램을 작성하세요." },
+            { difficulty: "hard", title: "그래프 탐색", description: "그래프에서 특정 노드까지의 경로를 찾는 프로그램을 작성하세요." },
+            { difficulty: "hard", title: "정규식 매칭", description: "정규식을 이용해 이메일 주소를 검증하는 프로그램을 작성하세요." },
+            { difficulty: "hard", title: "LRU 캐시", description: "LRU 캐시를 구현하는 프로그램을 작성하세요." },
+            { difficulty: "hard", title: "이진 트리 순회", description: "이진 트리를 중위 순회하는 프로그램을 작성하세요." },
+            { difficulty: "hard", title: "최단 경로", description: "다익스트라 알고리즘을 이용해 최단 경로를 찾는 프로그램을 작성하세요." }
+        ];
+
+        function toggleProblemPanel() {
+            const panel = document.getElementById('problemPanel');
+            const toggleText = document.getElementById('toggle-text');
+            
+            isPanelOpen = !isPanelOpen;
+            
+            if (isPanelOpen) {
+                panel.classList.add('active');
+                toggleText.textContent = '닫기';
+            } else {
+                panel.classList.remove('active');
+                toggleText.textContent = '문제';
+            }
+        }
+
+        function updateProblem() {
+            const problem = problems[currentProblemIndex];
+            const difficultyMap = {
+                'easy': { text: '쉬움', class: 'difficulty-easy' },
+                'medium': { text: '보통', class: 'difficulty-medium' },
+                'hard': { text: '어려움', class: 'difficulty-hard' }
+            };
+
+            document.getElementById('currentProblem').textContent = currentProblemIndex + 1;
+            document.getElementById('problemDifficulty').textContent = difficultyMap[problem.difficulty].text;
+            document.getElementById('problemDifficulty').className = `problem-difficulty ${difficultyMap[problem.difficulty].class}`;
+            document.getElementById('problemTitle').textContent = problem.title;
+            document.getElementById('problemDescription').textContent = problem.description;
+
+            // 버튼 상태 업데이트
+            document.getElementById('prevBtn').disabled = currentProblemIndex === 0;
+            document.getElementById('nextBtn').disabled = currentProblemIndex === problems.length - 1;
+        }
+
+        function prevProblem() {
+            if (currentProblemIndex > 0) {
+                currentProblemIndex--;
+                updateProblem();
+            }
+        }
+
+        function nextProblem() {
+            if (currentProblemIndex < problems.length - 1) {
+                currentProblemIndex++;
+                updateProblem();
+            }
+        }
+
+        // 초기화
+        updateProblem();
+    </script>
+
+</body>
+</html>
