@@ -2,6 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
+const { exec } = require('child_process');
+const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 
 const MONGODB_URL = 'mongodb://172.30.1.110:27017';
 const MONGODB_DBNAME = 'okpogo';
@@ -104,6 +108,39 @@ app.get('/api/users/read', async (req, res, next) => {
     }
   }
 });
+
+//codeserver
+// Python 코드 실행 요청 처리
+app.post('/run', async (req, res) => {
+  const code = req.body.code;
+  if (!code) {
+    return res.status(400).json({ error: '코드가 비어있습니다.' });
+  }
+
+  // 1. 임시 파이썬 파일 생성 (리눅스/라즈베리파이 경로)
+  const filename = path.join('/tmp', `${uuidv4()}.py`);
+  fs.writeFileSync(filename, code);
+
+  // 2. Docker 명령어 설정 (ARM 아키텍처 호환)
+  const cmd = `docker run --rm -v ${filename}:/app/script.py:ro --network none python:3.10 python /app/script.py`;
+
+  // 3. Docker 컨테이너에서 실행
+  exec(cmd, { timeout: 5000 }, (err, stdout, stderr) => {
+    fs.unlinkSync(filename); // 실행 후 파일 삭제
+
+    if (err) {
+      if (err.killed) {
+        return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
+      }
+      return res.json({ error: stderr || err.message });
+    }
+
+    res.json({ output: stdout });
+  });
+});
+
+// 정적 파일 서빙 (HTML, CSS, JS 등)
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
