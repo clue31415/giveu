@@ -175,6 +175,8 @@ export default function Timetable() {
             alt="배치도"
             style={{ width: '100%' }}
           />
+          <br/>
+          <br/>
       </div>
       <div>
           <h1><Link to={"/home"}>커뮤니티</Link></h1>
