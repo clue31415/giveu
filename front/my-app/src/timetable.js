@@ -168,6 +168,8 @@ export default function Timetable() {
           <span style={{ margin: '0 10px' }}>{floor}</span>
           <button onClick={() => handleFloorChange(1)}>{'>'}</button>
           <span> 층</span>
+          <br/>
+          <br/>
       </div>
       <div>
           <img 
@@ -175,8 +177,6 @@ export default function Timetable() {
             alt="배치도"
             style={{ width: '100%' }}
           />
-          <br/>
-          <br/>
       </div>
       <div>
           <h1><Link to={"/home"}>커뮤니티</Link></h1>
