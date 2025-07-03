@@ -130,18 +130,18 @@ export default function Timetable() {
             <table style={{ borderCollapse: 'collapse' }}>
               <tbody>
                 <tr>
-                  <td style={{ width: '50px', height: '100px', border: '1px solid black' }}>중식</td>
-                  <td style={{ width: '150px', height: '100px', border: '1px solid black' }}>
+                  <td style={{ width: '50%', height: '50px', border: '1px solid black' }}>중식</td>
+                  <td style={{ width: '50%', height: '50px', border: '1px solid black' }}>석식</td>
+                </tr>
+                <tr>
+                  <td style={{ width: '50%', border: '1px solid black' }}>
           {lunch.split('\n').map((line, index) => (
           <React.Fragment key={index}>
             {line}
             <br />
           </React.Fragment>
           ))}</td>
-                </tr>
-                <tr>
-                  <td style={{ width: '50px', height: '100px', border: '1px solid black' }}>석식</td>
-                  <td style={{ width: '150px', height: '100px', border: '1px solid black' }}>
+                  <td style={{ width: '50%', border: '1px solid black' }}>
             {dinner.split('\n').map((line, index) => (
             <React.Fragment key={index}>
               {line}
