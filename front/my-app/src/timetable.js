@@ -21,6 +21,7 @@ export default function Timetable() {
   const [newRow, setNewRow] = useState(Array(8).fill('')); // 새로운 행에 추가할 값들
   const [grade, setGrade] = useState(1);
   const [classroom, setClassroom] = useState(1);
+  const [floor, setFloor] = useState(1);
 
   // 새로운 행 추가 함수
   const addRow = () => {
@@ -75,7 +76,7 @@ export default function Timetable() {
   const handleFloorChange = (delta) => {
     setGrade(prev => {
       const newFloor = prev + delta;
-      return newGrade < 1 ? 1 : newGrade > 5 ? 5 : newGrade;
+      return newFloor < 1 ? 1 : newFloor > 5 ? 5 : newFloor;
     });
   };
 
