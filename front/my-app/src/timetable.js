@@ -74,7 +74,7 @@ export default function Timetable() {
   };
 
   const handleFloorChange = (delta) => {
-    setGrade(prev => {
+    setFloor(prev => {
       const newFloor = prev + delta;
       return newFloor < 1 ? 1 : newFloor > 5 ? 5 : newFloor;
     });
