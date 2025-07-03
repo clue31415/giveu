@@ -172,7 +172,8 @@ export default function Timetable() {
       <div>
           <img 
             src={floor === 1 ? 'floor1.png' : floor === 2 ? 'floor2.png' : floor === 3 ? 'floor3.png' : floor === 4 ? 'floor4.png' : floor === 5 ? 'floor5.png' : 'floor1.png'} 
-            alt="배치도" 
+            alt="배치도"
+            style={{ width: '100%' }}
           />
       </div>
       <div>
