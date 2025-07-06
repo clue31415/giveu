@@ -157,3 +157,36 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+
+
+// C 컴파일러
+app.post('/runc', async (req, res) => {
+  const code = req.body.code;
+  if (!code) {
+    return res.status(400).json({ error: '코드가 비어있습니다.' });
+  }
+
+  const filename = path.join('/tmp', `${uuidv4()}.c`);
+  const exeName = 'a.out'; // 기본 실행파일명
+
+  fs.writeFileSync(filename, code);
+
+  // gcc가 설치된 ARM 호환 Docker 이미지 사용 (예: arm32v7/debian)
+  // 컴파일 후 실행까지 한 번에 처리
+  //const cmd = `docker run --rm -v ${filename}:/app/code.c:ro --network none arm32v7/debian /bin/bash -c "apt update && apt install -y gcc && gcc /app/code.c -o /app/${exeName} && /app/${exeName}"`;
+  const cmd = `docker run --rm -v ${filename}:/app/code.c:ro --network none arm64-c-gcc /bin/bash -c "gcc /app/code.c -o /app/${exeName} && /app/${exeName}"`;
+  
+  exec(cmd, { timeout: 5000 }, (err, stdout, stderr) => {
+    fs.unlinkSync(filename);
+
+    if (err) {
+      if (err.killed) {
+        return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
+      }
+      return res.json({ error: stderr || err.message });
+    }
+
+    res.json({ output: stdout });
+  });
+});
