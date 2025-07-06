@@ -20,6 +20,15 @@ app.use(cors({
   origin: 'http://okpogo.servehttp.com:3000'
 }));
 
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.post('/api/users/upload', async (req, res, next) => {
   //console.log('postapi');
   let client;
