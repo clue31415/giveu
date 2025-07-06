@@ -1,7 +1,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8" />
-    <title>웹 컴파일</title>
+    <title>온라인 컴파일</title>
     <style>
         * {
             margin: 0;
@@ -314,11 +314,13 @@
 
     <div class="fixed">
         <h1 class="dodo">code</h1>
+	<h2 class="dodo">Python</h2>
         <div class="fu">
             <button class="start" onclick="runCode()" aria-label="파이썬 코드 실행">
                 ▶<span class="visually-hidden">실행</span>
             </button>
         </div>
+	<h2 class="dodo">C</h2>
 	<div class="fu">
             <button class="start" onclick="runCodeC()" aria-label="C 코드 실행">
                 ▶<span class="visually-hidden">실행</span>
@@ -332,8 +334,8 @@
 
     <div class="scrollable">
         
-        <h1 class="loadk"><a href="https://namu.wiki/w/Python?from=%ED%8C%8C%EC%9D%B4%EC%8D%AC" style="text-decoration: none; color: inherit;">Python</a></h1>
-        <textarea id="codeArea" placeholder="파이썬 코드를 여기에 입력하세요..." class="textarea"></textarea>
+        <h1 class="loadk"><a href="https://namu.wiki/w/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D" style="text-decoration: none; color: inherit;">Code</a></h1>
+        <textarea id="codeArea" placeholder="코드를 여기에 입력하세요..." class="textarea"></textarea>
         <h4>서버 응답 결과:</h4>
         <div id="output">(아직 결과가 없습니다...)</div>
     </div>
