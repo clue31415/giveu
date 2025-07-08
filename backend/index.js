@@ -135,7 +135,7 @@ app.post('/run', async (req, res) => {
   fs.writeFileSync(filename, code);
 
   // 2. Docker 명령어 설정 (ARM 아키텍처 호환)
-  const cmd = `docker run --rm -v ${filename}:/app/script.py:ro --network none python:3.10 python /app/script.py`;
+  const cmd = `docker run --rm --log-driver=none -v ${filename}:/app/script.py:ro --network none python:3.10 python /app/script.py`;
 
   // 3. Docker 컨테이너에서 실행
   exec(cmd, { timeout: 5000 }, (err, stdout, stderr) => {
@@ -180,7 +180,7 @@ app.post('/runc', async (req, res) => {
 
   // gcc가 설치된 ARM 호환 Docker 이미지 사용
   // 컴파일 후 실행까지 한 번에 처리
-  const cmd = `docker run --rm -v ${filename}:/app/code.c:ro --network none arm64-c-gcc /bin/bash -c "gcc /app/code.c -o ${exePath} && ${exePath}"`;
+  const cmd = `docker run --rm --log-driver=none -v ${filename}:/app/code.c:ro --network none arm64-c-gcc /bin/bash -c "gcc /app/code.c -o ${exePath} && ${exePath}"`;
   
   exec(cmd, { timeout: 5000 }, (err, stdout, stderr) => {
     try {
