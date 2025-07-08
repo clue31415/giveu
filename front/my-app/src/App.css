@@ -96,3 +96,16 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-10px, 0) rotate(-10deg); }
+  40% { transform: translate(10px, 0) rotate(10deg); }
+  60% { transform: translate(-10px, 0) rotate(-10deg); }
+  80% { transform: translate(10px, 0) rotate(10deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.shake {
+  animation: shake 1s ease-in-out;
+}
