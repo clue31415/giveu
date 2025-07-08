@@ -125,6 +125,7 @@ app.get('/api/users/read', async (req, res, next) => {
 // Python 코드 실행 요청 처리
 app.post('/run', async (req, res) => {
   const code = req.body.code;
+  console.log(code);
   if (!code) {
     return res.status(400).json({ error: '코드가 비어있습니다.' });
   }
@@ -138,16 +139,19 @@ app.post('/run', async (req, res) => {
 
   // 3. Docker 컨테이너에서 실행
   exec(cmd, { timeout: 5000 }, (err, stdout, stderr) => {
-    fs.unlinkSync(filename); // 실행 후 파일 삭제
-
-    if (err) {
-      if (err.killed) {
-        return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
+    try {
+      if (err) {
+        if (err.killed) {
+          return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
+        }
+        return res.json({ error: stderr || err.message });
       }
-      return res.json({ error: stderr || err.message });
+      res.json({ output: stdout });
+    } finally {
+      fs.unlink(filename, (unlinkErr) => {
+        if (unlinkErr) console.error('임시 파일 삭제 실패:', unlinkErr);
+      });
     }
-
-    res.json({ output: stdout });
   });
 });
 
@@ -163,30 +167,36 @@ app.listen(PORT, () => {
 // C 컴파일러
 app.post('/runc', async (req, res) => {
   const code = req.body.code;
+  console.log(code);
   if (!code) {
     return res.status(400).json({ error: '코드가 비어있습니다.' });
   }
 
   const filename = path.join('/tmp', `${uuidv4()}.c`);
   const exeName = 'a.out'; // 기본 실행파일명
+  const exePath = `/app/${exeName}`;
 
   fs.writeFileSync(filename, code);
 
-  // gcc가 설치된 ARM 호환 Docker 이미지 사용 (예: arm32v7/debian)
+  // gcc가 설치된 ARM 호환 Docker 이미지 사용
   // 컴파일 후 실행까지 한 번에 처리
-  //const cmd = `docker run --rm -v ${filename}:/app/code.c:ro --network none arm32v7/debian /bin/bash -c "apt update && apt install -y gcc && gcc /app/code.c -o /app/${exeName} && /app/${exeName}"`;
-  const cmd = `docker run --rm -v ${filename}:/app/code.c:ro --network none arm64-c-gcc /bin/bash -c "gcc /app/code.c -o /app/${exeName} && /app/${exeName}"`;
+  const cmd = `docker run --rm -v ${filename}:/app/code.c:ro --network none arm64-c-gcc /bin/bash -c "gcc /app/code.c -o ${exePath} && ${exePath}"`;
   
   exec(cmd, { timeout: 5000 }, (err, stdout, stderr) => {
-    fs.unlinkSync(filename);
-
-    if (err) {
-      if (err.killed) {
-        return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
+    try {
+      if (err) {
+        if (err.killed) {
+          return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
+        }
+        return res.json({ error: stderr || err.message });
       }
-      return res.json({ error: stderr || err.message });
+      res.json({ output: stdout });
+    } finally {
+      // 임시 소스 파일 삭제
+      fs.unlink(filename, unlinkErr => {
+        if (unlinkErr) console.error('임시 C 파일 삭제 실패:', unlinkErr);
+      });
+      // 실행 파일은 컨테이너 내부에서 생성되므로 호스트에는 없음
     }
-
-    res.json({ output: stdout });
   });
 });
