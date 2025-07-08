@@ -123,6 +123,7 @@ export default function Timetable() {
       setShaking(true);
     }
   };
+  };
 
   return (
     <div>
