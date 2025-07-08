@@ -20,6 +20,11 @@ app.use(cors({
   origin: 'http://okpogo.servehttp.com:3000'
 }));
 
+app.use((err, req, res, next) => {
+  console.error(err); // 콘솔에는 자세히 출력
+  res.status(500).json({ error: 'Internal Server Error', details: err.message });
+});
+
 /*
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
