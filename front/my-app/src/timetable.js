@@ -214,7 +214,6 @@ export default function Timetable() {
             style={{ width: '100%' }}
           />
       </div>
-      //운세
       <div>
           <h1>오늘의 운세</h1>
       </div>
@@ -248,19 +247,6 @@ export default function Timetable() {
         )}
       </div>
 
-      <style>{`
-        @keyframes shake {
-          0% { transform: translate(0, 0) rotate(0deg); }
-          20% { transform: translate(-10px, 0) rotate(-10deg); }
-          40% { transform: translate(10px, 0) rotate(10deg); }
-          60% { transform: translate(-10px, 0) rotate(-10deg); }
-          80% { transform: translate(10px, 0) rotate(10deg); }
-          100% { transform: translate(0, 0) rotate(0deg); }
-        }
-        .shake {
-          animation: shake 1s ease-in-out;
-        }
-      `}</style>
       <div>
           <h1><Link to={"/home"}>커뮤니티</Link></h1>
       </div>
