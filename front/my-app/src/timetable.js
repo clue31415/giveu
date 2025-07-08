@@ -233,12 +233,12 @@ export default function Timetable() {
         className={shaking ? "shake" : ""}
       >
         {showLuck ? (
-          <div style={{ fontSize: "16px", color: "#333", display: flex, justify-content: center}}>{message}</div>
+          <div style={{ fontSize: "16px", color: "#333", display: "flex", justifyContent: "center"}}>{message}</div>
         ) : (
           <img
             src="fortunecookie.png"
             alt="fortune cookie"
-            style={{ width: "100%", height: "100%", objectFit: "contain", display: flex, justify-content: center}}
+            style={{ width: "100%", height: "100%", objectFit: "contain", display: "flex", justifyContent: "center"}}
           />
         )}
       </div>
