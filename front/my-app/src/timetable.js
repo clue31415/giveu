@@ -87,7 +87,6 @@ export default function Timetable() {
   const lunch = lunchmenu[day-1];
   const dinner = dinnermenu[day-1];  
 
-  const FortuneCookie = () => {
   const [shaking, setShaking] = useState(false);
   const [showLuck, setShowLuck] = useState(false);
   const [message, setMessage] = useState("포츈쿠키");
@@ -99,8 +98,8 @@ export default function Timetable() {
     "사람들과의 만남에서 큰 인연이 생길 수 있습니다.",
     "집중력이 최고조! 원하는 목표에 한 걸음 더 다가갑니다.",
   ];
-
-  useEffect(() => {
+  
+  const FortuneCookie = () => {
     let timer;
     if (shaking) {
       timer = setTimeout(() => {
@@ -111,15 +110,14 @@ export default function Timetable() {
       }, 1000);
     }
     return () => clearTimeout(timer);
-  }, [shaking]);
+  };
 
   const handleClick = () => {
     if (!shaking && !showLuck) {
-      setMessage("포츈쿠키"); // 초기화
       setShowLuck(false);
       setShaking(true);
+      FortuneCookie();
     }
-  };
   };
 
   return (
