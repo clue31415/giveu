@@ -37,6 +37,8 @@ app.use((req, res, next) => {
 });
 */
 
+let visit=0;
+
 app.post('/api/users/upload', async (req, res, next) => {
   //console.log('postapi');
   let client;
@@ -110,6 +112,8 @@ app.post('/api/users/uploal', async (req, res, next) => {
 });
 
 app.get('/api/users/read', async (req, res, next) => {
+  visit+=1;
+  console.log("visit: ",visit);
   let client;
   try {
     client = await MongoClient.connect(MONGODB_URL);
@@ -126,10 +130,18 @@ app.get('/api/users/read', async (req, res, next) => {
   }
 });
 
+let cookie=0;
+app.get('/fortune', async (req, res, next) => {
+  cookie+=1;
+  console.log("cookie: ",cookie);
+  res.send(cookie)
+}
+  
 //codeserver
 // Python 코드 실행 요청 처리
 app.post('/run', async (req, res) => {
   const code = req.body.code;
+  console.log("run python code");
   console.log(code);
   if (!code) {
     return res.status(400).json({ error: '코드가 비어있습니다.' });
@@ -176,6 +188,7 @@ app.listen(PORT, () => {
 // C 컴파일러
 app.post('/runc', async (req, res) => {
   const code = req.body.code;
+  console.log("run c code");
   console.log(code);
   if (!code) {
     return res.status(400).json({ error: '코드가 비어있습니다.' });
