@@ -219,7 +219,7 @@ export default function Timetable() {
           width: "200px",
           height: "200px",
           cursor: "pointer",
-          border: "1px solid #ccc",
+          border: "0px solid #ccc",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -233,12 +233,12 @@ export default function Timetable() {
         className={shaking ? "shake" : ""}
       >
         {showLuck ? (
-          <div style={{ fontSize: "16px", color: "#333" }}>{message}</div>
+          <div style={{ fontSize: "16px", color: "#333", display: flex, justify-content: center}}>{message}</div>
         ) : (
           <img
             src="fortunecookie.png"
             alt="fortune cookie"
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            style={{ width: "100%", height: "100%", objectFit: "contain", display: flex, justify-content: center}}
           />
         )}
       </div>
