@@ -216,7 +216,6 @@ export default function Timetable() {
       <div
         onClick={handleClick}
         style={{
-          width: "200px",
           height: "200px",
           cursor: "pointer",
           border: "0px solid #ccc",
