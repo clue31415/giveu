@@ -86,7 +86,26 @@ export default function Timetable() {
   const day = today.getDate();
   const lunch = lunchmenu[day-1];
   const dinner = dinnermenu[day-1];  
-  
+
+  const ShakingBox = () => {
+  const [shaking, setShaking] = useState(false);
+  const [showLuck, setShowLuck] = useState(false);
+    useEffect(() => {
+    let timer;
+    if (shaking) {
+      timer = setTimeout(() => {
+        setShowLuck(true);
+        setShaking(false);
+      }, 2000); // 1초 흔들기 후 변경
+    }
+    return () => clearTimeout(timer);
+  }, [shaking]);
+    const handleClick = () => {
+    if (!shaking && !showLuck) {
+      setShaking(true);
+    }
+  };
+
   return (
     <div>
       <h1>시간표</h1>
@@ -176,6 +195,39 @@ export default function Timetable() {
             alt="배치도"
             style={{ width: '100%' }}
           />
+      </div>
+      //운세
+      <div
+        onClick={handleClick}
+        style={{ width: "200px", height: "200px", cursor: "pointer" }}
+        className={shaking ? "shake" : ""}
+      >
+        {showLuck ? (
+          <img
+            src='luck1.png'
+            alt="luck"
+            style={{ width: "100%", height: "100%" }}
+          />
+        ) : (
+          <img
+            src='box.png'
+            alt="box"
+            style={{ width: "100%", height: "100%" }}
+          />
+        )}
+        <style>{`
+          @keyframes shake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-10px, 0) rotate(-10deg); }
+            40% { transform: translate(10px, 0) rotate(10deg); }
+            60% { transform: translate(-10px, 0) rotate(-10deg); }
+            80% { transform: translate(10px, 0) rotate(10deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+          }
+          .shake {
+            animation: shake 1s ease-in-out;
+          }
+        `}</style>
       </div>
       <div>
           <h1><Link to={"/home"}>커뮤니티</Link></h1>
