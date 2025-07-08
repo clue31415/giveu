@@ -87,40 +87,36 @@ export default function Timetable() {
   const lunch = lunchmenu[day-1];
   const dinner = dinnermenu[day-1];  
 
+  const FortuneCookie = () => {
   const [shaking, setShaking] = useState(false);
   const [showLuck, setShowLuck] = useState(false);
-  const [message, setMessage] = useState("포츈쿠키");
+  const [message, setMessage] = useState("");
 
-  // 운세 메시지 리스트 (textbox)
   const textbox = [
-    "오늘은 행운이 당신의 편! 새로운 도전을 두려워하지 마세요.",
-    "뜻밖의 기쁨이 찾아올 거예요. 마음을 활짝 열고 기다려보세요!",
-    "금전운 상승! 작은 투자도 좋은 결과를 낼 수 있어요.",
-    "사람들과의 만남에서 큰 인연이 생길 수 있습니다.",
-    "집중력이 최고조! 원하는 목표에 한 걸음 더 다가갑니다.",
+    "오늘은 행운이 따를 거예요!",
+    "좋은 일이 곧 찾아올 것입니다.",
+    "지금의 선택이 미래를 바꿉니다.",
+    "주변 사람들과의 인연이 깊어져요.",
+    "노력이 결실을 맺는 하루예요.",
   ];
-  const FortuneCookie = () => {
 
   useEffect(() => {
     let timer;
     if (shaking) {
       timer = setTimeout(() => {
-        // 메시지 중 하나 랜덤 선택
         const randomIndex = Math.floor(Math.random() * textbox.length);
         setMessage(textbox[randomIndex]);
-
         setShowLuck(true);
         setShaking(false);
       }, 1000);
     }
     return () => clearTimeout(timer);
   }, [shaking]);
-  };
 
   const handleClick = () => {
     if (!shaking && !showLuck) {
+      setMessage("");       // 이전 메시지 초기화
       setShowLuck(false);
-      //setMessage("");
       setShaking(true);
     }
   };
