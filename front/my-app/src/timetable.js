@@ -115,6 +115,7 @@ export default function Timetable() {
     }
     return () => clearTimeout(timer);
   }, [shaking]);
+  };
 
   const handleClick = () => {
     if (!shaking && !showLuck) {
@@ -122,7 +123,6 @@ export default function Timetable() {
       setMessage("");
       setShaking(true);
     }
-  };
   };
 
   return (
