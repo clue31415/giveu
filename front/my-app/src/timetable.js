@@ -120,7 +120,7 @@ export default function Timetable() {
   const handleClick = () => {
     if (!shaking && !showLuck) {
       setShowLuck(false);
-      setMessage("");
+      //setMessage("");
       setShaking(true);
     }
   };
