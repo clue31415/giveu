@@ -99,24 +99,24 @@ export default function Timetable() {
     "집중력이 최고조! 원하는 목표에 한 걸음 더 다가갑니다.",
   ];
   
-  const FortuneCookie = () => {
-    let timer;
-    if (shaking) {
-      timer = setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * textbox.length);
-        setMessage(textbox[randomIndex]);
-        setShowLuck(true);
-        setShaking(false);
-      }, 1000);
-    }
-    return () => clearTimeout(timer);
-  };
+  useEffect(() => {
+  let timer;
+  if (shaking) {
+    timer = setTimeout(() => {
+      const randomIndex = Math.floor(Math.random() * textbox.length);
+      setMessage(textbox[randomIndex]);
+      setShowLuck(true);
+      setShaking(false);
+    }, 1000);
+  }
+  return () => clearTimeout(timer);
+}, [shaking]);
 
   const handleClick = () => {
-    if (!shaking && !showLuck) {
-      setShowLuck(false);
+    if (!showLuck) {
       setShaking(true);
-      FortuneCookie();
+    } else{
+      setShowLuck(false);
     }
   };
 
