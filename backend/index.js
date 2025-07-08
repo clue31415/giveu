@@ -135,7 +135,7 @@ app.get('/fortune', async (req, res, next) => {
   cookie+=1;
   console.log("cookie: ",cookie);
   res.send(cookie)
-}
+});
   
 //codeserver
 // Python 코드 실행 요청 처리
