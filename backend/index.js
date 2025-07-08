@@ -142,15 +142,15 @@ app.post('/run', async (req, res) => {
     try {
       if (err) {
         if (err.killed) {
-          exec(`docker rm -f ${containerName}`, (rmErr) => {
-            if (rmErr) console.error('컨테이너 강제 종료 실패:', rmErr);
-          });
           return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
         }
         return res.json({ error: stderr || err.message });
       }
       res.json({ output: stdout });
     } finally {
+      exec(`docker rm -f ${containerName}`, (rmErr) => {
+        if (rmErr) console.error('컨테이너 강제 종료 실패:', rmErr);
+      });
       fs.unlink(filename, (unlinkErr) => {
         if (unlinkErr) console.error('임시 파일 삭제 실패:', unlinkErr);
       });
@@ -189,15 +189,15 @@ app.post('/runc', async (req, res) => {
     try {
       if (err) {
         if (err.killed) {
-          exec(`docker rm -f ${containerName}`, (rmErr) => {
-            if (rmErr) console.error('컨테이너 강제 종료 실패:', rmErr);
-          });
           return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
         }
         return res.json({ error: stderr || err.message });
       }
       res.json({ output: stdout });
     } finally {
+      exec(`docker rm -f ${containerName}`, (rmErr) => {
+        if (rmErr) console.error('컨테이너 강제 종료 실패:', rmErr);
+      });
       // 임시 소스 파일 삭제
       fs.unlink(filename, unlinkErr => {
         if (unlinkErr) console.error('임시 C 파일 삭제 실패:', unlinkErr);
