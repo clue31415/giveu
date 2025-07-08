@@ -142,6 +142,9 @@ app.post('/run', async (req, res) => {
     try {
       if (err) {
         if (err.killed) {
+          exec(`docker rm -f ${containerName}`, (rmErr) => {
+            if (rmErr) console.error('컨테이너 강제 종료 실패:', rmErr);
+          });
           return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
         }
         return res.json({ error: stderr || err.message });
@@ -186,6 +189,9 @@ app.post('/runc', async (req, res) => {
     try {
       if (err) {
         if (err.killed) {
+          exec(`docker rm -f ${containerName}`, (rmErr) => {
+            if (rmErr) console.error('컨테이너 강제 종료 실패:', rmErr);
+          });
           return res.json({ error: '⏰ 실행 시간이 초과되었습니다.' });
         }
         return res.json({ error: stderr || err.message });
