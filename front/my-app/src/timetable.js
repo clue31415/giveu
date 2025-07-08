@@ -118,9 +118,6 @@ export default function Timetable() {
       .catch((err) => {
         console.error("서버 요청 오류:", err);
       });
-  } else {
-    setShowLuck(false);
-  }
     } else{
       setShowLuck(false);
     }
