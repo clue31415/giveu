@@ -122,6 +122,38 @@ export default function Timetable() {
 
   return (
     <div>
+      <div>
+          <h1>오늘의 운세</h1>
+      </div>
+      <div
+        onClick={handleClick}
+        style={{
+          height: "200px",
+          cursor: "pointer",
+          border: "0px solid #ccc",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "10px",
+          textAlign: "center",
+          userSelect: "none",
+          backgroundColor: "#fff",
+          boxSizing: "border-box",
+          position: "relative",
+        }}
+        className={shaking ? "shake" : ""}
+      >
+        {showLuck ? (
+          <div style={{ fontSize: "16px", color: "#333", display: "flex", justifyContent: "center"}}>{message}</div>
+        ) : (
+          <img
+            src="fortunecookie.png"
+            alt="fortune cookie"
+            style={{ width: "100%", height: "100%", objectFit: "contain", display: "flex", justifyContent: "center"}}
+          />
+        )}
+      </div>
+          
       <h1>시간표</h1>
 
       {/* 학년/반 선택 UI */}
@@ -210,38 +242,6 @@ export default function Timetable() {
             style={{ width: '100%' }}
           />
       </div>
-      <div>
-          <h1>오늘의 운세</h1>
-      </div>
-      <div
-        onClick={handleClick}
-        style={{
-          height: "200px",
-          cursor: "pointer",
-          border: "0px solid #ccc",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "10px",
-          textAlign: "center",
-          userSelect: "none",
-          backgroundColor: "#fff",
-          boxSizing: "border-box",
-          position: "relative",
-        }}
-        className={shaking ? "shake" : ""}
-      >
-        {showLuck ? (
-          <div style={{ fontSize: "16px", color: "#333", display: "flex", justifyContent: "center"}}>{message}</div>
-        ) : (
-          <img
-            src="fortunecookie.png"
-            alt="fortune cookie"
-            style={{ width: "100%", height: "100%", objectFit: "contain", display: "flex", justifyContent: "center"}}
-          />
-        )}
-      </div>
-
       <div>
           <h1><Link to={"/home"}>커뮤니티</Link></h1>
       </div>
