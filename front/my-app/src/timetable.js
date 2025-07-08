@@ -87,21 +87,39 @@ export default function Timetable() {
   const lunch = lunchmenu[day-1];
   const dinner = dinnermenu[day-1];  
 
-  const ShakingBox = () => {
+  const FortuneCookie = () => {
   const [shaking, setShaking] = useState(false);
   const [showLuck, setShowLuck] = useState(false);
-    useEffect(() => {
+  const [message, setMessage] = useState("");
+
+  // 운세 메시지 리스트 (textbox)
+  const textbox = [
+    "오늘은 행운이 당신의 편! 새로운 도전을 두려워하지 마세요.",
+    "뜻밖의 기쁨이 찾아올 거예요. 마음을 활짝 열고 기다려보세요!",
+    "금전운 상승! 작은 투자도 좋은 결과를 낼 수 있어요.",
+    "사람들과의 만남에서 큰 인연이 생길 수 있습니다.",
+    "집중력이 최고조! 원하는 목표에 한 걸음 더 다가갑니다.",
+  ];
+
+  useEffect(() => {
     let timer;
     if (shaking) {
       timer = setTimeout(() => {
+        // 메시지 중 하나 랜덤 선택
+        const randomIndex = Math.floor(Math.random() * textbox.length);
+        setMessage(textbox[randomIndex]);
+
         setShowLuck(true);
         setShaking(false);
-      }, 2000); // 1초 흔들기 후 변경
+      }, 1000);
     }
     return () => clearTimeout(timer);
   }, [shaking]);
-    const handleClick = () => {
+
+  const handleClick = () => {
     if (!shaking && !showLuck) {
+      setShowLuck(false);
+      setMessage("");
       setShaking(true);
     }
   };
@@ -197,38 +215,52 @@ export default function Timetable() {
           />
       </div>
       //운세
+      <div>
+          <h1>오늘의 운세</h1>
+      </div>
       <div
         onClick={handleClick}
-        style={{ width: "200px", height: "200px", cursor: "pointer" }}
+        style={{
+          width: "200px",
+          height: "200px",
+          cursor: "pointer",
+          border: "1px solid #ccc",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "10px",
+          textAlign: "center",
+          userSelect: "none",
+          backgroundColor: "#fff",
+          boxSizing: "border-box",
+          position: "relative",
+        }}
         className={shaking ? "shake" : ""}
       >
         {showLuck ? (
-          <img
-            src='luck1.png'
-            alt="luck"
-            style={{ width: "100%", height: "100%" }}
-          />
+          <div style={{ fontSize: "16px", color: "#333" }}>{message}</div>
         ) : (
           <img
-            src='box.png'
-            alt="box"
-            style={{ width: "100%", height: "100%" }}
+            src="fortunecookie.png"
+            alt="fortune cookie"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
           />
         )}
-        <style>{`
-          @keyframes shake {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            20% { transform: translate(-10px, 0) rotate(-10deg); }
-            40% { transform: translate(10px, 0) rotate(10deg); }
-            60% { transform: translate(-10px, 0) rotate(-10deg); }
-            80% { transform: translate(10px, 0) rotate(10deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
-          }
-          .shake {
-            animation: shake 1s ease-in-out;
-          }
-        `}</style>
       </div>
+
+      <style>{`
+        @keyframes shake {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          20% { transform: translate(-10px, 0) rotate(-10deg); }
+          40% { transform: translate(10px, 0) rotate(10deg); }
+          60% { transform: translate(-10px, 0) rotate(-10deg); }
+          80% { transform: translate(10px, 0) rotate(10deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .shake {
+          animation: shake 1s ease-in-out;
+        }
+      `}</style>
       <div>
           <h1><Link to={"/home"}>커뮤니티</Link></h1>
       </div>
