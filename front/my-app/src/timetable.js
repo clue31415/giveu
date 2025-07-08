@@ -89,7 +89,7 @@ export default function Timetable() {
 
   const [shaking, setShaking] = useState(false);
   const [showLuck, setShowLuck] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("포츈쿠키");
 
   // 운세 메시지 리스트 (textbox)
   const textbox = [
