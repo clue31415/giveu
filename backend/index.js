@@ -177,7 +177,13 @@ app.post('/run', async (req, res) => {
 });
 
 // 정적 파일 서빙 (HTML, CSS, JS 등)
+app.use(express.static(path.join(__dirname, '../front/my-app/build')));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// SPA 지원을 위한 fallback
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../front/my-app/build', 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
