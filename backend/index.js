@@ -184,7 +184,7 @@ app.use(express.static('/home/reimu/giveu/front/my-app/build'));
 
 // SPA 지원을 위한 fallback
 app.get('*', (req, res) => {
-  res.sendFile('/home/reimu/giveu/front/my-app/build/index.html'));
+  res.sendFile('/home/reimu/giveu/front/my-app/build/index.html');
 });
 
 app.listen(PORT, () => {
