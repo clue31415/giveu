@@ -7,13 +7,35 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
+const https = require('https');
+const http = require('http');
+
 const MONGODB_URL = 'mongodb://172.30.1.110:27017';
 const MONGODB_DBNAME = 'okpogo';
-const PORT = 8080;
+//const PORT = 8080;
 
 const danwordlist = ["씨발", "ㅅㅂ", "ㅆㅂ", "새끼", "지랄", "좆", "엿", "병신", "존나", "썅", "쌍", "죽여", "시발", "돼지", "염병", "병자", "한남", "한녀", "년", "페미", "동덕", "게이", "인셀", "걸레", "매춘", "자살", "일베", "승만", "정희", "두환", "명박", "근혜", "무현", "재인", "홍준표", "이재명", "안철수", "조국", "석열", "빨갱", "이기야", "딸", "농ㅋ", "농쭉", "천박", "딜도", "오나", "자위", "ㅅㅅ", "섹스", "쎅쓰", "쎅스", "섹수", "니거", "비치", "후장", "딕", "야추", "fuck", "sex", "moron", "bitch", "dick", "slut", "nigger", "위험단어테스트용용용"];
 
 const app = express();
+
+// 인증서 로드
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/okpogo.servehttp.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/okpogo.servehttp.com/fullchain.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
+// HTTPS 서버
+https.createServer(credentials, app).listen(443, () => {
+    console.log('HTTPS 서버 실행 중 (443)');
+});
+
+// HTTP → HTTPS 리디렉션
+http.createServer((req, res) => {
+    res.writeHead(301, { Location: 'https://' + req.headers.host + req.url });
+    res.end();
+}).listen(80, () => {
+    console.log('HTTP 요청을 HTTPS로 리디렉션 중 (80)');
+});
+
 app.use(bodyParser.json()); // JSON 파싱 미들웨어 추가
 
 /*
@@ -230,8 +252,3 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get(/(.*)/, (req, res) => {
   res.sendFile(path.resolve(__dirname,'../front/my-app/build','index.html'));
 });
-
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
-
