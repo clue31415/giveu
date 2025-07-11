@@ -182,7 +182,7 @@ app.use(express.static(path.resolve(__dirname,'../front/my-app/build')));
 //app.use(express.static(path.join(__dirname, 'public')));
 
 // SPA 지원을 위한 fallback
-app.get('/(.*)/', (req, res) => {
+app.get(/(.*)/, (req, res) => {
   res.sendFile(path.resolve(__dirname,'../front/my-app/build','index.html'));
 });
 
