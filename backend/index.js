@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+//const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 const { exec } = require('child_process');
@@ -15,10 +15,13 @@ const danwordlist = ["씨발", "ㅅㅂ", "ㅆㅂ", "새끼", "지랄", "좆", "�
 
 const app = express();
 app.use(bodyParser.json()); // JSON 파싱 미들웨어 추가
+
+/*
 app.set('trust proxy', true);
 app.use(cors({
   origin: 'http://okpogo.servehttp.com:3000'
 }));
+*/
 
 app.use((err, req, res, next) => {
   console.error(err); // 콘솔에는 자세히 출력
@@ -177,21 +180,6 @@ app.post('/run', async (req, res) => {
   });
 });
 
-// 정적 파일 서빙 (HTML, CSS, JS 등)
-app.use(express.static(path.resolve(__dirname,'../front/my-app/build')));
-//app.use(express.static(path.join(__dirname, 'public')));
-
-// SPA 지원을 위한 fallback
-app.get(/(.*)/, (req, res) => {
-  res.sendFile(path.resolve(__dirname,'../front/my-app/build','index.html'));
-});
-
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
-
-
-
 // C 컴파일러
 app.post('/runc', async (req, res) => {
   const code = req.body.code;
@@ -233,3 +221,17 @@ app.post('/runc', async (req, res) => {
     }
   });
 });
+
+// 정적 파일 서빙 (HTML, CSS, JS 등)
+app.use(express.static(path.resolve(__dirname,'../front/my-app/build')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// SPA 지원을 위한 fallback
+app.get(/(.*)/, (req, res) => {
+  res.sendFile(path.resolve(__dirname,'../front/my-app/build','index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}!`);
+});
+
