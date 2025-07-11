@@ -183,7 +183,7 @@ app.use(express.static('/home/reimu/giveu/front/my-app/build'));
 //app.use(express.static(path.join(__dirname, 'public')));
 
 // SPA 지원을 위한 fallback
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile('/home/reimu/giveu/front/my-app/build/index.html');
 });
 
