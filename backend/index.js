@@ -25,17 +25,19 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error', details: err.message });
 });
 
-/*
 app.use((req, res, next) => {
+  console.log('Request path:', req.path);
+  next();
+  /*
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Origin', 'http://okpogo.servehttp.com:3000');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     return res.sendStatus(200);
   }
+  */
   next();
 });
-*/
 
 let visit=0;
 
