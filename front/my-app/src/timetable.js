@@ -109,7 +109,7 @@ export default function Timetable() {
   const handleClick = () => {
     if (!showLuck) {
       setShaking(true);
-      fetch('http://okpogo.servehttp.com:8080/fortune')
+      fetch('https://okpogo.servehttp.com/fortune')
       .then((res) => res.json())
       .then((data) => {
         console.log("cookie:", data);
