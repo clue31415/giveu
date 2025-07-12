@@ -24,8 +24,8 @@ const certificate = fs.readFileSync('/etc/letsencrypt/live/okpogo.servehttp.com/
 const credentials = { key: privateKey, cert: certificate };
 
 // HTTPS 서버
-https.createServer(credentials, app).listen(443, () => {
-    console.log('HTTPS 서버 실행 중 (443)');
+https.createServer(credentials, app).listen(8080, () => {
+    console.log('HTTPS 서버 실행 중 (8080)');
 });
 
 // HTTP → HTTPS 리디렉션
