@@ -6,6 +6,7 @@ import Home from "./home";
 import Post from "./post";
 import Write from "./write";
 import Wrlte from "./wrlte";
+import Team from "./team";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/post" element={<Post />} />
           <Route path="/write" element={<Write />} />
           <Route path="/wrlte" element={<Wrlte />} />
+          <Route path="/team" element={<Team />} />
         </Routes>
       </div>
     </BrowserRouter>
