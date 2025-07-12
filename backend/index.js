@@ -23,9 +23,26 @@ const privateKey = fs.readFileSync('/etc/letsencrypt/live/okpogo.servehttp.com/p
 const certificate = fs.readFileSync('/etc/letsencrypt/live/okpogo.servehttp.com/fullchain.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
+/*
 // HTTPS 서버
 https.createServer(credentials, app).listen(8080, () => {
     console.log('HTTPS 서버 실행 중 (8080)');
+});
+*/
+// HTTPS 서버 생성
+const httpsServer = https.createServer(credentials, app);
+
+// Socket.IO 인스턴스 생성 (HTTPS 서버에 붙임)
+const io = new Server(httpsServer, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+});
+
+// HTTPS 서버 리슨
+httpsServer.listen(8080, () => {
+  console.log('HTTPS 서버 실행 중 (8080)');
 });
 
 // HTTP → HTTPS 리디렉션
@@ -241,6 +258,46 @@ app.post('/runc', async (req, res) => {
       });
       // 실행 파일은 컨테이너 내부에서 생성되므로 호스트에는 없음
     }
+  });
+});
+
+//화상회의
+io.on('connection', (socket) => {
+  console.log('✅ User connected:', socket.id);
+
+  socket.on('join', (roomId) => {
+    socket.join(roomId);
+    const clients = io.sockets.adapter.rooms.get(roomId);
+
+    if (clients.size === 1) {
+      socket.emit('created'); // 첫 번째 입장자 (caller)
+      console.log(`📥 Room [${roomId}] created by ${socket.id}`);
+    } else if (clients.size === 2) {
+      socket.emit('joined'); // 두 번째 입장자 (callee)
+      socket.to(roomId).emit('ready'); // 두 명 다 들어왔으므로 준비 신호
+      console.log(`👥 Room [${roomId}] joined by ${socket.id}`);
+    } else {
+      socket.emit('full');
+      console.warn(`🚫 Room [${roomId}] is full. Connection denied for ${socket.id}`);
+    }
+  });
+
+  socket.on('offer', ({ roomId, sdp, type }) => {
+    socket.to(roomId).emit('offer', { sdp, type });
+    console.log(`📡 Offer sent in room ${roomId}`);
+  });
+
+  socket.on('answer', ({ roomId, sdp, type }) => {
+    socket.to(roomId).emit('answer', { sdp, type });
+    console.log(`📡 Answer sent in room ${roomId}`);
+  });
+
+  socket.on('ice-candidate', ({ roomId, candidate }) => {
+    socket.to(roomId).emit('ice-candidate', { candidate });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('❌ User disconnected:', socket.id);
   });
 });
 
