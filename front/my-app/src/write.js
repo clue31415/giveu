@@ -10,7 +10,7 @@ export default function Write() {
     const userData = [title, content, name, pw];
     const navigate = useNavigate();
     function uploadpost() {
-        fetch("http://okpogo.servehttp.com:8080/api/users/upload", { //auth 주소에서 받을 예정
+        fetch("https://okpogo.servehttp.com/api/users/upload", { //auth 주소에서 받을 예정
           method: "POST", // method :통신방법
           headers: {      // headers: API 응답에 대한 정보를 담음
             "content-type": "application/json",
