@@ -32,7 +32,7 @@ https.createServer(credentials, app).listen(8080, () => {
 http.createServer((req, res) => {
     res.writeHead(301, { Location: 'https://' + req.headers.host + req.url });
     res.end();
-}).listen(80, () => {
+}).listen(8081, () => {
     console.log('HTTP 요청을 HTTPS로 리디렉션 중 (80)');
 });
 
