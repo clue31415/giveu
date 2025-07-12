@@ -115,6 +115,57 @@ export default function Team() {
     }
   };
 
+const createPeerConnection = async (isCaller) => {
+  console.log('📞 createPeerConnection 호출됨. Caller?', isCaller);
+
+  if (!localStreamRef.current) {
+    console.warn('🚫 localStream 준비 안됨');
+  } else {
+    console.log('🎬 localStream 준비됨, 트랙 수:', localStreamRef.current.getTracks().length);
+  }
+
+  const peer = new RTCPeerConnection({
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun1.l.google.com:19302' }
+    ],
+  });
+
+  peer.onicecandidate = (event) => {
+    if (event.candidate) {
+      console.log('📤 ICE candidate 생성됨:', event.candidate);
+      socket.emit('ice-candidate', { roomId, candidate: event.candidate });
+    } else {
+      console.log('⚠️ ICE candidate 전송 완료 또는 끝');
+    }
+  };
+
+  peer.oniceconnectionstatechange = () => {
+    console.log('🔄 ICE 상태:', peer.iceConnectionState);
+  };
+
+  peer.ontrack = (event) => {
+    console.log('📺 ontrack', event.streams[0]);
+    if (remoteVideoRef.current) {
+      remoteVideoRef.current.srcObject = event.streams[0];
+    }
+  };
+
+  localStreamRef.current.getTracks().forEach((track) => {
+    console.log('➕ 트랙 추가:', track.kind);
+    peer.addTrack(track, localStreamRef.current);
+  });
+
+  peerRef.current = peer;
+
+  if (isCaller) {
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+    console.log('📡 Offer 생성됨');
+    socket.emit('offer', { roomId, sdp: offer.sdp, type: offer.type });
+  }
+};
+/*
   const createPeerConnection = async (isCaller) => {
     if (!localStreamRef.current) {
       console.warn('Local stream is not ready yet.');
@@ -151,6 +202,7 @@ export default function Team() {
       console.log('📤 Offer sent.');
     }
   };
+*/
 
   // (선택) 통화 종료 함수
   const leaveCall = () => {
