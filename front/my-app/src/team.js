@@ -23,7 +23,7 @@ export default function Team() {
       console.log('🟡 You joined the room. You are the callee.');
     };
 
-    const handleReady = () => {
+    const handleReady = async () => {
       console.log('🟢 Both participants joined. You can receive an offer.');
       //createPeerConnection(false);
       try {
