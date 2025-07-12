@@ -25,7 +25,22 @@ export default function Team() {
 
     const handleReady = () => {
       console.log('🟢 Both participants joined. You can receive an offer.');
-      createPeerConnection(false);
+      //createPeerConnection(false);
+      try {
+        if (!localStreamRef.current) {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          localStreamRef.current = stream;
+    
+          if (localVideoRef.current) {
+            localVideoRef.current.srcObject = stream;
+          }
+        }
+    
+        createPeerConnection(false); // ✅ 스트림 확보 후 호출
+      } catch (err) {
+        console.error('🔴 getUserMedia error on ready:', err);
+        alert('칼리의 카메라/마이크 권한을 확인해주세요.');
+      }
     };
 
     const handleOffer = async ({ sdp, type }) => {
