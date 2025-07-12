@@ -283,6 +283,11 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('ready', () => {
+    console.log('🟢 Both participants joined. You can receive an offer.');
+    createPeerConnection(false);  // 이거!
+  });
+    
   socket.on('offer', ({ roomId, sdp, type }) => {
     socket.to(roomId).emit('offer', { sdp, type });
     console.log(`📡 Offer sent in room ${roomId}`);
