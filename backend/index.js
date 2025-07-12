@@ -294,6 +294,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('ice-candidate', ({ roomId, candidate }) => {
+    console.log(`❄️ ICE candidate received from ${socket.id} in room ${roomId}`);
     socket.to(roomId).emit('ice-candidate', { candidate });
   });
 
