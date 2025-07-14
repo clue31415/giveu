@@ -21,11 +21,12 @@ export default function Team() {
 
     const handleJoined = () => {
       console.log('🟡 You joined the room. You are the callee.');
+      createPeerConnection(true); // ✅ 스트림 확보 후 호출
+      socket.emit('callee-ready');
     };
 
     const handleReady = async () => {
       console.log('🟢 Both participants joined. You can receive an offer.');
-      createPeerConnection(true); // ✅ 스트림 확보 후 호출
       
       //createPeerConnection(false);
       try {
