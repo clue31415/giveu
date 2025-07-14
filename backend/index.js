@@ -297,7 +297,7 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('ice-candidate', { candidate });
   });
 
-  socket.on('callee-ready', () => {
+  socket.on('callee-ready', ({ roomId }) => {
     console.log('callee-ready');
     socket.to(roomId).emit('ready'); // 두 명 다 들어왔으므로 준비 신호
   });
