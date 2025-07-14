@@ -25,7 +25,7 @@ export default function Team() {
 
     const handleReady = async () => {
       console.log('🟢 Both participants joined. You can receive an offer.');
-      createPeerConnection(false); // ✅ 스트림 확보 후 호출
+      createPeerConnection(true); // ✅ 스트림 확보 후 호출
       
       //createPeerConnection(false);
       try {
