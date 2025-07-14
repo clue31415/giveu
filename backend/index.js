@@ -303,7 +303,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('change-text', ({ roomId, text }) => {
-    socket.to(roomId).emit('change-text', { roomId, text }); // 두 명 다 들어왔으므로 준비 신호
+    socket.to(roomId).emit('change-text', { roomId, text });
+    console.log('changetext');
   });
     
   socket.on('disconnect', () => {
