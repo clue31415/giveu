@@ -166,6 +166,8 @@ const createPeerConnection = async (isCaller) => {
     socket.emit('offer', { roomId, sdp: offer.sdp, type: offer.type });
   } else {
     console.log('callee 들어옴');
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
     socket.emit('offer', { roomId, sdp: offer.sdp, type: offer.type });
     console.log('callee offer 요청');
   }
