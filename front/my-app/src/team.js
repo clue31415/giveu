@@ -21,7 +21,6 @@ export default function Team() {
 
     const handleJoined = () => {
       console.log('🟡 You joined the room. You are the callee.');
-      createPeerConnection(false);
     };
 
     const handleReady = async () => {
@@ -165,6 +164,10 @@ const createPeerConnection = async (isCaller) => {
     await peer.setLocalDescription(offer);
     console.log('📡 Offer 생성됨');
     socket.emit('offer', { roomId, sdp: offer.sdp, type: offer.type });
+  } else {
+    console.log('callee 들어옴');
+    socket.emit('offer', { roomId, sdp: offer.sdp, type: offer.type });
+    console.log('callee offer 요청');
   }
 };
 /*
