@@ -21,6 +21,7 @@ export default function Team() {
 
     const handleJoined = () => {
       console.log('🟡 You joined the room. You are the callee.');
+      createPeerConnection(false);
     };
 
     const handleReady = async () => {
