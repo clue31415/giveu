@@ -275,7 +275,6 @@ io.on('connection', (socket) => {
       console.log(`📥 Room [${roomId}] created by ${socket.id}`);
     } else if (clients.size === 2) {
       socket.emit('joined'); // 두 번째 입장자 (callee)
-      socket.to(roomId).emit('ready'); // 두 명 다 들어왔으므로 준비 신호
       console.log(`👥 Room [${roomId}] joined by ${socket.id}`);
     } else {
       socket.emit('full');
@@ -298,6 +297,11 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('ice-candidate', { candidate });
   });
 
+  socket.on('callee-ready', () => {
+    console.log('callee-ready');
+    socket.to(roomId).emit('ready'); // 두 명 다 들어왔으므로 준비 신호
+  });
+    
   socket.on('disconnect', () => {
     console.log('❌ User disconnected:', socket.id);
   });
