@@ -261,7 +261,7 @@ const createPeerConnection = async (isCaller) => {
     const value = event.target.value;
     setText(value); // 상태 업데이트
     console.log(value,text,'v t');
-    socket.emit('change-text', { roomId, text });
+    socket.emit('change-text', { roomId, value });
   };
 
   return (
