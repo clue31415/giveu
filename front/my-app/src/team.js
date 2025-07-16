@@ -332,7 +332,7 @@ const createPeerConnection = async (isCaller) => {
           placeholder="여기에 글을 입력하세요..."
           value={text}
           onChange={change}
-          style={{ padding: '10px', fontSize: '16px' }}
+          style={{ padding: '10px', fontSize: '16px', width: '80%', resize: 'none', boxSizing: 'border-box' }}
         />
         )}
       </div>
