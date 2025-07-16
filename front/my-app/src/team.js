@@ -315,23 +315,25 @@ const createPeerConnection = async (isCaller) => {
 
       <div>
         {inCall && (
-          <div>
           <button
             onClick={leaveCall}
             style={{ marginTop: '20px', padding: '8px 16px', fontSize: '16px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px' }}
           >
             통화 종료
           </button>
+        )}
+      </div>
+      <div>
+        {inCall && (
           <button
             onClick={downloadText}
             style={{ padding: '8px 16px', fontSize: '16px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}
           >
             다운로드
           </button>
-          </div>
         )}
       </div>
-          
+
       <div style={{ marginTop: '30px' }}>
         {inCall && (
         <textarea
