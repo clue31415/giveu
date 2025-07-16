@@ -89,9 +89,9 @@ export default function Team() {
       }
     };
 
-    const changeText = async ({ changedtext }) => {
-      console.log(changedtext);
-      setText(changedtext);
+    const changeText = async ({ value }) => {
+      console.log(value);
+      setText(value);
     };
 
     const handleFull = () => {
