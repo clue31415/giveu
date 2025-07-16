@@ -315,6 +315,7 @@ const createPeerConnection = async (isCaller) => {
 
       <div>
         {inCall && (
+          <div>
           <button
             onClick={leaveCall}
             style={{ marginTop: '20px', padding: '8px 16px', fontSize: '16px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px' }}
@@ -327,6 +328,7 @@ const createPeerConnection = async (isCaller) => {
           >
             다운로드
           </button>
+          </div>
         )}
       </div>
           
