@@ -327,8 +327,6 @@ const createPeerConnection = async (isCaller) => {
       <div style={{ flexGrow: 1, marginTop: '30px', padding: '10px' }}>
         {inCall && (
         <textarea
-          rows={5}
-          cols={50}
           placeholder="여기에 글을 입력하세요..."
           value={text}
           onChange={change}
