@@ -329,6 +329,7 @@ const createPeerConnection = async (isCaller) => {
         <textarea
           placeholder="여기에 글을 입력하세요..."
           value={text}
+          rows={20}
           onChange={change}
           style={{ flexGrow: 1, padding: '10px', fontSize: '16px', width: '80%', height: '90%', resize: 'none', boxSizing: 'border-box' }}
         />
