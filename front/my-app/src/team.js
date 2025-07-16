@@ -61,16 +61,6 @@ export default function Team() {
     console.error('handleOffer error:', err);
   }
 };
-    /*
-    const handleOffer = async ({ sdp, type }) => {
-      console.log('offer received');
-      if (!peerRef.current) return;
-      await peerRef.current.setRemoteDescription(new RTCSessionDescription({ sdp, type }));
-      const answer = await peerRef.current.createAnswer();
-      await peerRef.current.setLocalDescription(answer);
-      socket.emit('answer', { roomId, sdp: answer.sdp, type: answer.type });
-      console.log(' Answer sent.');
-    };*/
 
     const handleAnswer = async ({ sdp, type }) => {
       if (!peerRef.current) return;
