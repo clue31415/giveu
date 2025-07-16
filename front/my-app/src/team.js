@@ -322,18 +322,11 @@ const createPeerConnection = async (isCaller) => {
             통화 종료
           </button>
           <button
-              onClick={downloadText}
-              style={{
-                padding: '8px 16px',
-                fontSize: '16px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px'
-              }}
-            >
-              다운로드
-            </button>
+            onClick={downloadText}
+            style={{ padding: '8px 16px', fontSize: '16px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}
+          >
+            다운로드
+          </button>
         )}
       </div>
           
