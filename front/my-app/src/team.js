@@ -344,8 +344,8 @@ const createPeerConnection = async (isCaller) => {
           onChange={change}
           style={{ padding: '10px', fontSize: '16px' }}
         />
-      </div>
         )}
+      </div>
     </div>
   );
 }
