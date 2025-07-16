@@ -302,9 +302,9 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('ready'); // 두 명 다 들어왔으므로 준비 신호
   });
 
-  socket.on('change-text', ({ roomId, value }) => {
-    console.log('change-text',roomId,value);
-    socket.to(roomId).emit('change-text', { value });
+  socket.on('text-changed', ({ roomId, ct }) => {
+    console.log('change-text',roomId,ct);
+    socket.to(roomId).emit('change-text', { ct });
   });
     
   socket.on('disconnect', () => {
