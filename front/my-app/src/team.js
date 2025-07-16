@@ -80,7 +80,6 @@ export default function Team() {
     };
 
     const changeText = async ({ ct }) => {
-      console.log(ct);
       setText(ct);
     };
 
