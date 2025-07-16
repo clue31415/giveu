@@ -327,6 +327,7 @@ const createPeerConnection = async (isCaller) => {
         {inCall && (
         <textarea
           placeholder="여기에 글을 입력하세요..."
+          spellcheck="false"
           value={text}
           rows={10}
           onChange={change}
