@@ -303,7 +303,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('text-changed', ({ roomId, ct }) => {
-    console.log('change-text',roomId,ct);
+    //console.log('change-text',roomId,ct);
     socket.to(roomId).emit('change-text', { ct });
   });
     
