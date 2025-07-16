@@ -89,9 +89,9 @@ export default function Team() {
       }
     };
 
-    const changeText = async ({ value }) => {
-      console.log(value);
-      setText(value);
+    const changeText = async ({ ct }) => {
+      console.log(ct);
+      setText(ct);
     };
 
     const handleFull = () => {
@@ -258,10 +258,10 @@ const createPeerConnection = async (isCaller) => {
   };
 
   const change = (event) => {
-    const value = event.target.value;
-    setText(value); // 상태 업데이트
-    console.log(value,text,'v t');
-    socket.emit('text-changed', { roomId, value });
+    const ct = event.target.value;
+    setText(ct); // 상태 업데이트
+    console.log(ct,text,'v t');
+    socket.emit('text-changed', { roomId, ct });
   };
 
   return (
