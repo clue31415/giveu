@@ -334,7 +334,8 @@ const createPeerConnection = async (isCaller) => {
         )}
       </div>
 
-      <div style={{ marginTop: '30px' }}>
+      //<div style={{ marginTop: '30px' }}>
+      <div style={{ flexGrow: 1, marginTop: '30px', padding: '10px' }}>
         {inCall && (
         <textarea
           rows={5}
